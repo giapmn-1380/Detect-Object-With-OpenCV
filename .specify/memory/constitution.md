@@ -1,50 +1,67 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Static Web App Constitution
+<!-- Minimal requirements for a static web application (no dedicated backend required). -->
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Static-First Architecture
+- The app must be deployable as static files (HTML/CSS/JS + assets).
+- Prefer build-time generation over runtime server logic.
+- Any external services (APIs) must be optional and degrade gracefully.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Simple Tooling
+- Use standard, well-supported tooling (Node-based build system is acceptable).
+- Keep configuration minimal; avoid custom build steps unless required.
+- Prefer widely adopted libraries over bespoke utilities.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Quality Gates
+- Every change must build successfully in CI.
+- Linting and formatting must be enforced (auto-fix where possible).
+- Tests are required for non-trivial logic (e.g., utilities, data transforms).
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Accessibility & UX Baseline
+- Aim for WCAG 2.1 AA for new UI.
+- Keyboard navigation must work for all interactive elements.
+- Provide meaningful page titles, labels, and accessible names.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Security & Privacy by Default
+- Do not store secrets in the client.
+- Do not log sensitive user data.
+- Use HTTPS-only endpoints; avoid mixed content.
+- Prefer least-privilege for any API keys; rotate if exposed.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Additional Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Deployment must produce a deterministic `dist/` (or equivalent) artifact.
+- Supported browsers: latest 2 versions of major evergreen browsers (Chrome, Edge, Firefox, Safari).
+- Performance baseline:
+	- Avoid unnecessary JS; code-split if the framework supports it.
+	- Optimize images (responsive formats preferred).
+	- No blocking network calls during initial render unless essential.
+- Security baseline:
+	- Use a Content Security Policy (CSP) if hosting supports it.
+	- Dependencies must be kept reasonably up to date; address high severity advisories.
+- Accessibility baseline: new pages/components should meet the Core Principles above.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+- Branching: feature branches merged via PR.
+- PR requirements:
+	- Clear description and screenshots for UI changes.
+	- Passing CI (build + lint + tests).
+	- No unused code or dead flags.
+- Release process:
+	- Main branch must always be deployable.
+	- Tag releases when shipping user-visible changes.
 
 ## Governance
 <!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution is the default standard for the repository.
+- Any exception must be documented in the PR description with rationale.
+- Amendments require:
+	- Updated text in this document.
+	- A short migration note if the change affects existing code.
+	- Agreement from at least one maintainer/reviewer.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
+**Version**: 1.0.0 | **Ratified**: 2025-12-31 | **Last Amended**: 2025-12-31
 <!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->

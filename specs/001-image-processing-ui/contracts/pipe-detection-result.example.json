@@ -1,0 +1,8 @@
+{
+  "imageId": "img_001",
+  "status": "completed",
+  "boxes": [
+    { "x": 120, "y": 40, "width": 180, "height": 520 }
+  ],
+  "errorMessage": null
+}
