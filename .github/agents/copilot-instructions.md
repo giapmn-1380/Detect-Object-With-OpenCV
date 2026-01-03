@@ -3,6 +3,8 @@
 Auto-generated from all feature plans. Last updated: 2025-12-31
 
 ## Active Technologies
+- TypeScript 5.9 (Next.js 16) + Next.js (App Router), React, OpenCV.js (WASM build) (002-pipe-bbox-detection)
+- N/A (xử lý in-memory; không có database) (002-pipe-bbox-detection)
 
 - TypeScript (Next.js default) + Next.js (App Router), React, OpenCV.js (WASM build) (001-image-processing-ui)
 
@@ -23,6 +25,7 @@ npm test && npm run lint
 TypeScript (Next.js default): Follow standard conventions
 
 ## Recent Changes
+- 002-pipe-bbox-detection: Added TypeScript 5.9 (Next.js 16) + Next.js (App Router), React, OpenCV.js (WASM build)
 
 - 001-image-processing-ui: Added TypeScript (Next.js default) + Next.js (App Router), React, OpenCV.js (WASM build)
 
