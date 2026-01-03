@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "pipe-detection-result.schema.json",
+  "title": "PipeDetectionResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["imageId", "status", "boxes", "errorMessage"],
+  "properties": {
+    "imageId": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": ["processing", "completed", "no_pipe_detected", "failed"]
+    },
+    "boxes": {
+      "type": "array",
+      "maxItems": 1,
+      "items": { "$ref": "#/$defs/boundingBox" }
+    },
+    "errorMessage": { "type": ["string", "null"] }
+  },
+  "$defs": {
+    "boundingBox": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["x", "y", "width", "height"],
+      "properties": {
+        "x": { "type": "number", "minimum": 0 },
+        "y": { "type": "number", "minimum": 0 },
+        "width": { "type": "number", "exclusiveMinimum": 0 },
+        "height": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    }
+  }
+}

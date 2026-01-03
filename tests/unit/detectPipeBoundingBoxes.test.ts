@@ -1,13 +1,17 @@
 /**
- * Unit tests for pipe detection filtering logic
- * Tests the filtering by area and aspect ratio (without full OpenCV)
+ * Unit tests for pipe detection filtering logic (legacy tests).
+ * NOTE: New filtering tests are in pipeCandidateFilter.test.ts.
+ * These tests remain for backward-compatible validation of the old constants.
  */
 
 import { describe, it, expect } from "vitest";
+import { selectLargestCandidate, type CandidateMetrics } from "@/src/opencv/pipeCandidateFilter";
+import { DEFAULT_PIPE_DETECTION_RULES } from "@/src/opencv/pipeDetectionRules";
 
-// Constants mirrored from detectPipeBoundingBoxes.ts
-const MIN_AREA = 500;
-const MIN_ASPECT_RATIO = 1.5;
+// Legacy constants (kept for backward-compatible tests).
+// New code should use DEFAULT_PIPE_DETECTION_RULES from pipeDetectionRules.ts.
+const LEGACY_MIN_AREA = 500;
+const LEGACY_MIN_ASPECT_RATIO = 1.5;
 
 interface MockContour {
   area: number;
@@ -16,13 +20,36 @@ interface MockContour {
 }
 
 /**
- * Filter function extracted from detection logic for testability
+ * Legacy filter function for backward-compatible tests.
  */
 function shouldIncludeContour(contour: MockContour): boolean {
-  if (contour.area < MIN_AREA) return false;
+  if (contour.area < LEGACY_MIN_AREA) return false;
   const aspectRatio = contour.height / contour.width;
-  return aspectRatio >= MIN_ASPECT_RATIO;
+  return aspectRatio >= LEGACY_MIN_ASPECT_RATIO;
 }
+
+// ---------- US3 Tests: no_pipe_detected when empty ----------
+
+describe("DetectionResult status", () => {
+  const FRAME_AREA = 1000 * 1000; // 1 megapixel
+  const rules = DEFAULT_PIPE_DETECTION_RULES;
+
+  it("returns undefined (no_pipe_detected) when candidates list is empty", () => {
+    const result = selectLargestCandidate([], FRAME_AREA, rules);
+    expect(result).toBeUndefined();
+  });
+
+  it("returns undefined (no_pipe_detected) when all candidates are filtered out", () => {
+    // Too small candidate
+    const tiny: CandidateMetrics = {
+      boundingBox: { x: 0, y: 0, width: 10, height: 15 },
+      contourArea: 140,
+      hullArea: 150,
+    };
+    const result = selectLargestCandidate([tiny], FRAME_AREA, rules);
+    expect(result).toBeUndefined();
+  });
+});
 
 describe("Contour filtering logic", () => {
   describe("Area threshold", () => {

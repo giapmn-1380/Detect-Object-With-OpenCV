@@ -6,13 +6,7 @@ import { ImageResultCard } from "./(components)/ImageResultCard";
 import type { ImageItem, SelectedImage, ProcessedImageResult, DetectedPipe } from "@/src/domain/types";
 import { loadImageFromFile, getImageDimensions, getImageData } from "@/src/utils/imageDecoding";
 import { detectPipeBoundingBoxes } from "@/src/opencv/detectPipeBoundingBoxes";
-
-// Extend window type for OpenCV
-declare global {
-  interface Window {
-    cv: any;
-  }
-}
+import type { OpenCV } from "@/src/opencv/opencv.d";
 
 // Generate unique ID for each image
 function generateId(): string {
